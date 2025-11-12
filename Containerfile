@@ -15,5 +15,4 @@ RUN dnf -y install 'dnf5-command(config-manager)' && \
 
 COPY etc/ /etc/
 
-
-
+RUN bootc container lint
