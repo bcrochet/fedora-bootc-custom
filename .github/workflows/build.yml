@@ -141,12 +141,16 @@ jobs:
           INPUT_TAGS: ${{ needs.build-ghcr.outputs.imageVersion }} ${{ env.IMAGE_TAGS }}
 
       # Sign container
-      - uses: sigstore/cosign-installer@v3.8.1
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3.10.0
+        with:
+          cosign-release: 'v2.2.4'
 
       - name: Sign the published manifest
         if: github.event_name != 'pull_request'
         run: |
-          cosign sign --yes --recursive "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY --recursive "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
         env:
           DIGEST: ${{ steps.push-manifest.outputs.digest }}
           IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}
@@ -157,8 +161,7 @@ jobs:
       - name: Verify the image signature
         run: |
           cosign verify \
-            --certificate-identity "https://github.com/${{ github.repository }}/.github/workflows/build.yml@refs/heads/main" \
-            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+            --key "https://github.com/${{ github.repository }}/cosign.pub@refs/heads/main" \
             "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
         env:
           INPUT_NAME: ${{ env.IMAGE_NAME }}
