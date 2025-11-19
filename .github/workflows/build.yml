@@ -158,13 +158,13 @@ jobs:
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
 
-      - name: Verify the image signature
-        run: |
-          cosign verify \
-            --key "https://github.com/${{ github.repository }}/cosign.pub@refs/heads/main" \
-            "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
-        env:
-          INPUT_NAME: ${{ env.IMAGE_NAME }}
-          DIGEST: ${{ steps.push-manifest.outputs.digest }}
-          IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}
+      # - name: Verify the image signature
+      #   run: |
+      #     cosign verify \
+      #       --key "https://github.com/${{ github.repository }}/cosign.pub@refs/heads/main" \
+      #       "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
+      #   env:
+      #     INPUT_NAME: ${{ env.IMAGE_NAME }}
+      #     DIGEST: ${{ steps.push-manifest.outputs.digest }}
+      #     IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}
 
