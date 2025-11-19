@@ -8,10 +8,11 @@ RUN dnf -y install 'dnf5-command(config-manager)' && \
 	dnf -y group install virtualization && \
 	dnf -y install \
 	cockpit cockpit-ws cockpit-podman cockpit-selinux cockpit-machines \
-	git neovim tree tmux rsync tailscale man-db openvswitch && \
+	git neovim tree tmux rsync tailscale man-db systemd-resolved openvswitch && \
 	dnf clean all && \
 	systemctl enable cockpit.socket && \
 	systemctl enable tailscaled && \
+	systemctl enable systemd-resolved && \
 	systemctl enable openvswitch
 
 COPY etc/ /etc/
