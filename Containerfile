@@ -10,7 +10,7 @@ RUN dnf -y install 'dnf5-command(config-manager)' && \
 	dnf -y install \
 	cockpit cockpit-ws cockpit-podman cockpit-selinux cockpit-machines \
 	git neovim tree tmux rsync tailscale man-db systemd-resolved openvswitch \
-	wireshark-cli haproxy keepalived usbutils apcupsd nut nut-client nut-cgi && \
+	wireshark-cli haproxy keepalived usbutils nut nut-client && \
 	dnf clean all && \
 	systemctl enable cockpit.socket && \
 	systemctl enable tailscaled && \
