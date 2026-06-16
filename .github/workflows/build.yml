@@ -148,7 +148,13 @@ jobs:
       - name: Sign the published manifest
         if: github.event_name != 'pull_request'
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY --recursive "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
+          cosign sign \
+            --yes \
+            --key env://COSIGN_PRIVATE_KEY \
+            --new-bundle-format=false \
+            --use-signing-config=false \
+            --registry-referrers-mode=legacy \
+            --recursive "${IMAGE_REGISTRY}/${INPUT_NAME}@${DIGEST}"
         env:
           DIGEST: ${{ steps.push-manifest.outputs.digest }}
           IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}
