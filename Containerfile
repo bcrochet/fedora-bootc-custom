@@ -11,7 +11,7 @@ RUN dnf -y install 'dnf5-command(config-manager)' && \
 	cockpit cockpit-ws cockpit-podman cockpit-selinux cockpit-machines \
 	git neovim tree tmux rsync tailscale man-db systemd-resolved openvswitch \
 	wireshark-cli haproxy keepalived usbutils nut nut-client \
-	neovim && \
+	neovim smartmontools smartmontools-selinux && \
 	dnf clean all && \
 	systemctl enable cockpit.socket && \
 	systemctl enable tailscaled && \
